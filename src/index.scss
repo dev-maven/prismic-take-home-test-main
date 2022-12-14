@@ -1,0 +1,58 @@
+$theme-colors: (
+	'primary': #58055f,
+	'secondary': #a246d5,
+	'danger': #d32f2f,
+	'warning': #f57c00,
+	'success': #388e3c,
+);
+
+@import '~bootstrap/scss/bootstrap';
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+main {
+	margin-top: 6rem;
+	@media only screen and (max-width: 767px) {
+		margin-top: 8rem;
+	}
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.form-control {
+	&:focus {
+		border-color: #ced4da;
+		box-shadow: none;
+	}
+}
+
+.flex-div {
+	display: inline-flex;
+
+	@media only screen and (max-width: 767px) {
+		display: block;
+	}
+}
+
+.active {
+	background: #fff !important;
+	color: #a246d5 !important;
+}
