@@ -3,10 +3,12 @@ import { Rule } from '../models/rule';
 
 const initRuleState: RuleState = {
 	rules: [],
+	selectedRules: [],
 };
 
 type RuleState = {
 	rules: Rule[];
+	selectedRules: Rule[];
 };
 
 const defaultRules: Rule[] = [
@@ -15,12 +17,14 @@ const defaultRules: Rule[] = [
 		product: 'A',
 		quantity: 3,
 		percentage: 13.33,
+		text: '13.33% off 3 A items',
 	},
 	{
 		id: 2,
 		product: 'B',
 		quantity: 2,
 		percentage: 25,
+		text: '25% off 2 B items',
 	},
 ];
 
@@ -42,6 +46,14 @@ const ruleSlice = createSlice({
 		removeRule(state, action) {
 			state.rules = state.rules.filter((rule) => rule.id !== action.payload);
 			localStorage.setItem('rules', JSON.stringify(state.rules));
+		},
+		addSelectedRule(state, action) {
+			state.selectedRules = state.selectedRules.concat(action.payload);
+		},
+		removeSelectedRule(state, action) {
+			state.selectedRules = state.selectedRules.filter(
+				(rule) => rule.id !== action.payload
+			);
 		},
 		updateRule(state, action) {
 			const ruleIndex = state.rules.findIndex(

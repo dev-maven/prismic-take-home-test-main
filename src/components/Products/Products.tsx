@@ -8,7 +8,7 @@ import { BsXSquareFill } from 'react-icons/bs';
 import { BsPencilSquare } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '../../models/product';
-import { productActions } from '../../store/product.store';
+import { productActions } from '../../store/product.state';
 import { Currency } from '../UI/Currency';
 
 export function Products() {

@@ -10,14 +10,47 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { CartItem } from '../../models/cart-item';
 import { BsXSquareFill } from 'react-icons/bs';
 import Multiselect from 'multiselect-react-dropdown';
+import { ruleActions } from '../../store/rule.state';
+import Button from 'react-bootstrap/Button';
+import { basketActions } from '../../store/basket.state';
 
 export function Home() {
 	const products = useSelector((state: any) => state.productReducer.products);
-	const [basket, setBasket] = useState([]);
+	const rules = useSelector((state: any) => state.ruleReducer.rules);
+	const basket = useSelector((state: any) => state.basketReducer.items);
+	const selectedRules = useSelector(
+		(state: any) => state.ruleReducer.selectedRules
+	);
+	const [enteredProductInput, setEnteredProductInput] = useState('');
 	const dispatch = useDispatch();
 
+	const inputChangeHandler = (event: React.SyntheticEvent) => {
+		const input = event.target as HTMLInputElement;
+		setEnteredProductInput(input.value);
+	};
+
+	const checkoutHandler = (event: React.SyntheticEvent) => {
+		event.preventDefault();
+
+		dispatch(
+			basketActions.addBasket({
+				text: enteredProductInput,
+				rules: selectedRules,
+				products: products,
+			})
+		);
+	};
+
 	const removeItemHandler = (id: number) => {
-		// dispatch(productActions.removeProduct(id));
+		dispatch(basketActions.removeItem(id));
+	};
+
+	const onSelectRuleHandler = (selectedList: any, selectedItem: any) => {
+		dispatch(ruleActions.addSelectedRule(selectedItem));
+	};
+
+	const onRemoveRuleHandler = (selectedList: any, removedItem: any) => {
+		dispatch(ruleActions.removeSelectedRule(removedItem.id));
 	};
 
 	return (
@@ -38,28 +71,55 @@ export function Home() {
 				))}
 			</div>
 
-			<div className='row'>
-				<div className='col-md-6'></div>
+			<div className='row my-3'>
+				<div className='col-12'>
+					<h4>Checkout Calculator</h4>
+				</div>
 				<div className='col-md-6'>
+					<Form onSubmit={checkoutHandler}>
+						<Form.Group className='mb-3' controlId='formProductString'>
+							<Form.Label>Product String</Form.Label>
+							<Form.Control
+								type='text'
+								value={enteredProductInput}
+								onChange={inputChangeHandler}
+								placeholder='Input product name'
+							/>
+						</Form.Group>
+						<Button variant='primary' type='submit'>
+							Checkout
+						</Button>
+					</Form>
+				</div>
+				<div className='col-md-6'>
+					<p className='my-1'>Discount Rules</p>
 					<Multiselect
-						options={this.state.options}
-						selectedValues={this.state.selectedValue}
-						onSelect={this.onSelect}
-						onRemove={this.onRemove}
-						displayValue='name'
+						options={rules}
+						onSelect={onSelectRuleHandler}
+						onRemove={onRemoveRuleHandler}
+						placeholder='Select Discount rules'
+						displayValue='text'
 					/>
 				</div>
 			</div>
 
 			<div className='row'>
-				<div className='col-md-6'>
+				<div className='col-12'>
 					<h4>Basket</h4>
 					<ListGroup>
 						{basket.map((item: CartItem) => (
 							<ListGroup.Item className={styles.list__item} key={item.id}>
-								{item.productName}
+								{item.productName.toUpperCase()} - x{item.quantity}
 								<div>
-									<Currency>{item.price}</Currency>
+									{item.discountedPrice === item.originalPrice && (
+										<Currency class='mx-3'>{item.originalPrice}</Currency>
+									)}
+									{item.discountedPrice !== item.originalPrice && (
+										<Currency class='cancel'>{item.originalPrice}</Currency>
+									)}
+									{item.discountedPrice !== item.originalPrice && (
+										<Currency class='mx-3'>{item.discountedPrice}</Currency>
+									)}
 									<BsXSquareFill
 										className={`${styles.list__item__icon} pointer text-danger`}
 										onClick={removeItemHandler.bind(null, item.id)}
@@ -67,11 +127,18 @@ export function Home() {
 								</div>
 							</ListGroup.Item>
 						))}
-					</ListGroup>
-				</div>
 
-				<div className='col-md-6'>
-					<h4>Checkout Calculator</h4>
+						<ListGroup.Item className={styles.list__item}>
+							Total
+							<Currency>
+								{basket.length > 0
+									? basket.reduce((accumulator: any, object: any) => {
+											return accumulator + object.discountedPrice;
+									  }, 0)
+									: 0}
+							</Currency>
+						</ListGroup.Item>
+					</ListGroup>
 				</div>
 			</div>
 		</Fragment>

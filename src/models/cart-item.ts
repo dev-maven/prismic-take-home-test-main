@@ -3,5 +3,6 @@ export interface CartItem {
 	productName: string;
 	quantity: string;
 	price: number;
+	originalPrice: number;
 	discountedPrice: number;
 }

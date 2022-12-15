@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { BsXSquareFill } from 'react-icons/bs';
 import { BsPencilSquare } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { ruleActions } from '../../store/rule.store';
+import { ruleActions } from '../../store/rule.state';
 import { Rule } from '../../models/rule';
 import { RuleItem } from '../UI/RuleItem';
 import { Product } from '../../models/product';

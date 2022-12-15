@@ -7,8 +7,8 @@ import React from 'react';
 import { Header } from './components/Header/Header';
 import { Products } from './components/Products/Products';
 import { useDispatch } from 'react-redux';
-import { productActions } from './store/product.store';
-import { ruleActions } from './store/rule.store';
+import { productActions } from './store/product.state';
+import { ruleActions } from './store/rule.state';
 
 function App() {
 	const dispatch = useDispatch();
