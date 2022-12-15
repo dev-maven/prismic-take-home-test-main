@@ -73,7 +73,7 @@ export function Home() {
 
 			<div className='row my-3'>
 				<div className='col-12'>
-					<h4>Checkout Calculator</h4>
+					<h4 className='my-3'>Checkout Calculator</h4>
 				</div>
 				<div className='col-md-6'>
 					<Form onSubmit={checkoutHandler}>
@@ -83,7 +83,7 @@ export function Home() {
 								type='text'
 								value={enteredProductInput}
 								onChange={inputChangeHandler}
-								placeholder='Input product name'
+								placeholder='Input product names'
 							/>
 						</Form.Group>
 						<Button variant='primary' type='submit'>
@@ -105,7 +105,7 @@ export function Home() {
 
 			<div className='row'>
 				<div className='col-12'>
-					<h4>Basket</h4>
+					<h4 className='my-3'>Basket</h4>
 					<ListGroup>
 						{basket.map((item: CartItem) => (
 							<ListGroup.Item className={styles.list__item} key={item.id}>
