@@ -79,9 +79,8 @@ export function Rules() {
 					<h4 className='m-3'>Available Rules</h4>
 					<ListGroup>
 						{rules.map((rule: Rule) => (
-							<ListGroup.Item className={styles.list__item}>
+							<ListGroup.Item className={styles.list__item} key={rule.id}>
 								<RuleItem
-									key={rule.id}
 									percentage={rule.percentage}
 									quantity={rule.quantity}
 									product={rule.product}
